@@ -2,6 +2,7 @@ import logging
 from aiogram import Bot, Dispatcher, executor, types
 import bot_token
 from work import get_word, get_verdict, check_user_message, transform_verdict, init
+from stats import change_leaderboard, get_leaderboard, get_stats
 
 TOKEN = bot_token.Token
 
@@ -23,12 +24,25 @@ current_task = dict()
 
 @dp.message_handler(commands=['start', 'help'])
 async def send_help(message : types.Message):
-    await message.answer("Привет, данный бот позволит играть в известную игру Wordle неограниченное количество раз в день."
-    "Чтобы начать пропиши /start_wordle. Чтобы ознакомиться с правилами пропиши /rules")
+    await message.answer("Данный telegram бот позволяет играть неограниченное количество раз в день в известную игру wordle.\n"
+    "На данный момент работает только версия на русском языке.\n"
+    "Для того чтобы начать игру, пропишите /start_wordle и далее вам нужно будет угадать загаданное слово за 6 попыток. "
+    "С правилами можно ознакомиться на сайте данной игры или написав /rules.\n"
+    "Для того чтобы узнать свою статистику, пропишите /stats. А для того чтобы увидеть список лучших, пропишите /leaderboard.\n"
+    "На данный момент можно вводить все возможные комбинации букв, поэтому просьба, используйте реальные слова и контролируйте себя сами\n"
+    "Желаю приятной игры😊😊")
 
 @dp.message_handler(commands=['rules'])
 async def send_rules(message : types.Message):
-    await message.answer("Скоро будет добавлено")
+    await message.answer("Скоро будет добавлено(наверное)")
+
+@dp.message_handler(commands=['leaderboard'])
+async def send_leaderboard(message : types.Message):
+    await message.answer(get_leaderboard())
+
+@dp.message_handler(commands=['stats'])
+async def send_stats(message : types.Message):
+    await message.answer(get_stats(message.from_user))
 
 @dp.message_handler(commands=['start_wordle'])
 async def send_task(message : types.Message):
@@ -64,6 +78,7 @@ async def simple_message(message : types.Message):
                 for s in current_task[userid].verdicts:
                     all_verdicts += s + "\n"
                 await message.answer(all_verdicts)
+                change_leaderboard(message.from_user, len(current_task[userid].verdicts))
                 current_task[userid] = Task("", [], 0)
                 return
             else:
@@ -80,6 +95,7 @@ async def simple_message(message : types.Message):
                     for s in current_task[userid].verdicts:
                         all_verdicts += s + "\n"
                     await message.answer(all_verdicts)
+                    change_leaderboard(message.from_user, 0)
                     current_task[userid] = Task("", [], 0)
                     return
                 await message.answer(result)
