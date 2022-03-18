@@ -1,20 +1,24 @@
 import random
 import requests
 
-words = ['']
+words_for_guess = ['']
 words_for_find = set()
 alfabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
-words_file = open('russian_words.txt', 'r', encoding="utf-8")
+words_for_find_file = open('russian_words.txt', 'r', encoding="utf-8")
+words_for_guess_file = open('guess_words.txt', 'r', encoding="utf-8")
 
 def init():
-    for c in words_file:
+    for c in words_for_find_file:
         c = c.replace('\n', '')
         if len(c) == 5:
-            words.append(c)
             words_for_find.add(c)
 
+    for c in words_for_guess_file:
+        c = c.replace('\n', '')
+        words_for_guess.append(c)
+
 def get_word():
-    return random.choice(words)
+    return random.choice(words_for_guess)
 
 def check_user_message(text : str):
     for c in text:
