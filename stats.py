@@ -34,14 +34,14 @@ def get_stats(user):
         df.loc[len(df)] = [user.id, user.full_name, 0, 0, 0, 0, 0, 0, 0, 0]
         save_leaderboard()
     your_stats = ""
-    your_stats += "Вы выиграли " + str(df.loc[df["username"] == user.id, 'count_wins'][0]) + " игр из " + str(df.loc[df["username"] == user.id, 'count_games'][0]) + '\n'
+    your_stats += "Вы выиграли " + str(df.loc[df["username"] == user.id, 'count_wins'].tolist()[0]) + " игр из " + str(df.loc[df["username"] == user.id, 'count_games'].tolist()[0]) + '\n'
     
-    your_stats += "Вы угадывали " + str(df.loc[df["username"] == user.id, 'count_one'][0]) + " раз слово с первой попытки\n"
-    your_stats += "Вы угадывали " + str(df.loc[df["username"] == user.id, 'count_two'][0]) + " раз слово со второй попытки\n"
-    your_stats += "Вы угадывали " + str(df.loc[df["username"] == user.id, 'count_three'][0]) + " раз слово с третьей попытки\n"
-    your_stats += "Вы угадывали " + str(df.loc[df["username"] == user.id, 'count_four'][0]) + " раз слово с четвертой попытки\n"
-    your_stats += "Вы угадывали " + str(df.loc[df["username"] == user.id, 'count_five'][0]) + " раз слово с пятой попытки\n"
-    your_stats += "Вы угадывали " + str(df.loc[df["username"] == user.id, 'count_six'][0]) + " раз слово с шестой попытки\n"
+    your_stats += "Вы угадывали " + str(df.loc[df["username"] == user.id, 'count_one'].tolist()[0]) + " раз слово с первой попытки\n"
+    your_stats += "Вы угадывали " + str(df.loc[df["username"] == user.id, 'count_two'].tolist()[0]) + " раз слово со второй попытки\n"
+    your_stats += "Вы угадывали " + str(df.loc[df["username"] == user.id, 'count_three'].tolist()[0]) + " раз слово с третьей попытки\n"
+    your_stats += "Вы угадывали " + str(df.loc[df["username"] == user.id, 'count_four'].tolist()[0]) + " раз слово с четвертой попытки\n"
+    your_stats += "Вы угадывали " + str(df.loc[df["username"] == user.id, 'count_five'].tolist()[0]) + " раз слово с пятой попытки\n"
+    your_stats += "Вы угадывали " + str(df.loc[df["username"] == user.id, 'count_six'].tolist()[0]) + " раз слово с шестой попытки\n"
 
     return your_stats
 
